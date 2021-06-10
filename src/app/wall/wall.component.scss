@@ -1,0 +1,20 @@
+.flexcenter__container {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nz-card-meta {
+  margin-top: 0px;
+}
+
+.wall__postTime {
+  color: rgba(0, 0, 0, 0.5);
+}

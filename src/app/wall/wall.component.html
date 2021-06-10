@@ -1,0 +1,45 @@
+<ng-container *ngIf="posts$ | async as posts; else loading">
+  <form nz-form [nzLayout]="'inline'" [formGroup]="wallForm">
+    <nz-form-item style="width: 100%">
+      <nz-form-control nzErrorTip="Please input your username!">
+        <nz-select
+          nzAllowClear
+          style="width: 100%"
+          nzShowSearch
+          formControlName="user"
+        >
+          <nz-option
+            *ngFor="let user of users$ | async"
+            nzLabel="{{ user.first_name }} {{ user.last_name }}"
+            [nzValue]="user.id"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <ng-container *ngIf="posts.length; else empty">
+    <nz-card *ngFor="let post of posts">
+      {{ post.text }}
+      <nz-card-meta [nzAvatar]="avatarTemplate"></nz-card-meta>
+      <ng-template #avatarTemplate>
+        <nz-avatar
+          nzSize="large"
+          [nzSrc]="post.creator?.profile_picture"
+        ></nz-avatar>
+        <a routerLink="/user/{{ post.creator?.id }}">
+          {{ post.creator?.first_name }} {{ post.creator?.last_name }}</a
+        >
+        <span class="wall__postTime">
+          Posted: {{ post.postedDateStringified }}
+        </span>
+      </ng-template>
+    </nz-card>
+  </ng-container>
+</ng-container>
+<ng-template #empty></ng-template>
+<ng-template #loading>
+  <div class="flexcenter__container">
+    <nz-spin class="nzspin__center" nzSimple nzSize="large"></nz-spin>
+  </div>
+</ng-template>

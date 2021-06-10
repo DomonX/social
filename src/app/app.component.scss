@@ -1,0 +1,45 @@
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+
+nz-header {
+  background-color: #001529;
+  padding: 0;
+}
+
+nz-content {
+  margin: 0 16px;
+  min-height: 100vh;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+}
+
+nz-footer {
+  text-align: center;
+  background-color: #001529;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.menu__badge {
+  color: rgba(255, 255, 255, 0.65);
+  padding-right: 15px;
+}
+
+.menu__badge:hover {
+  color: rgba(255, 255, 255, 0.85);
+  padding-right: 15px;
+}
+
+.ant-menu-item, .ant-menu-inline-collapsed{
+  padding-top: 10px !important;
+}

@@ -1,0 +1,3 @@
+<ng-container *ngIf="friends$ | async as friends">
+    <app-simpleuser *ngFor="let friend of friends" [user]="friend"></app-simpleuser>
+</ng-container>
