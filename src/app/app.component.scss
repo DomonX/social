@@ -7,6 +7,8 @@
 nz-header {
   background-color: #001529;
   padding: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
 nz-content {
@@ -21,7 +23,9 @@ nz-breadcrumb {
 .inner-content {
   padding: 24px;
   background: #fff;
-  min-height: 360px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 nz-footer {
@@ -40,6 +44,15 @@ nz-footer {
   padding-right: 15px;
 }
 
-.ant-menu-item, .ant-menu-inline-collapsed{
+.ant-menu-item,
+.ant-menu-inline-collapsed {
   padding-top: 10px !important;
+}
+
+app-wall {
+  width: 100%;
+}
+
+.ant-layout-content {
+  min-height: calc(100vh - 134px);
 }

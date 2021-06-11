@@ -1,0 +1,14 @@
+<nz-card>
+  {{ _post.post?.text }}
+  <nz-card-meta [nzAvatar]="avatarTemplate"></nz-card-meta>
+  <ng-template #avatarTemplate>
+    <nz-avatar
+      nzSize="large"
+      [nzSrc]="_post.creator?.profile_picture"
+    ></nz-avatar>
+    <a routerLink="/user/{{ _post.creator?.id }}">
+      {{ _post.creator?.first_name }} {{ _post.creator?.last_name }}</a
+    >
+    <span class="wall__postTime"> Posted: {{ _post.postTime }} </span>
+  </ng-template>
+</nz-card>

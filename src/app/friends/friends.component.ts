@@ -1,24 +1,24 @@
-import { FriendsService } from './friends.service';
-import { LoginService } from './../login/login.service';
-import { Observable, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user/user.model';
+import { Observable } from 'rxjs';
+
+import { FriendService } from '../shared/backend/friend.service';
+import { User } from '../shared/models';
+import { LoginService } from './../login/login.service';
 
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
-  styleUrls: ['./friends.component.scss']
+  styleUrls: ['./friends.component.scss'],
 })
 export class FriendsComponent implements OnInit {
-
   public friends$: Observable<User[]>;
 
-  constructor(private friendSrv: FriendsService, private loginSrv: LoginService) {
+  constructor(
+    private friendSrv: FriendService,
+    private loginSrv: LoginService
+  ) {
     this.friends$ = this.friendSrv.getUserFriends(this.loginSrv.loggedUser$);
   }
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 }

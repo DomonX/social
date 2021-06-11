@@ -1,0 +1,25 @@
+<ng-container *ngIf="conversations$ | async as conversations">
+  <div *ngFor="let conv of conversations">
+    <h2>{{ conv.title }}</h2>
+    <div class="chat__messagebox" *ngFor="let msg of conv.messages">
+      <div class="chat__message">{{ msg.message }}</div>
+      <div class="chat__messageavatar">
+        <button
+          nzTooltipTitle="{{ msg.user.first_name }} {{ msg.user.last_name }}"
+          nzTooltipPlacement="rightBottom"
+          nz-button
+          nz-tooltip
+          style="border: none; background-color: inherit"
+        >
+          <nz-avatar
+            style="align-self: flex-end; min-width: 24px"
+            nzSize="small"
+            [nzSrc]="msg.user.profile_picture"
+            nzTooltipTitle="prompt text"
+            nzTooltipPlacement="right"
+          ></nz-avatar>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

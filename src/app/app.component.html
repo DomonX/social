@@ -2,18 +2,49 @@
   <nz-sider nzCollapsible nzWidth="200px">
     <div class="logo"></div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li [routerLink]="item.routerLink" nz-menu-item *ngFor="let item of menuItems">
-        <nz-badge class="menu__badge" [nzCount]="item.badge">
-          <div>
-            <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
-            <span >{{item.label}}</span>
-          </div>
-        </nz-badge>
-      </li>      
+      <li
+        [routerLink]="item.routerLink"
+        nz-menu-item
+        *ngFor="let item of menuItems"
+      >
+        <ng-container
+          *ngIf="item.badge | async as badgeCounter; else emptybadge"
+        >
+          <nz-badge class="menu__badge" [nzCount]="badgeCounter">
+            <div>
+              <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+              <span>{{ item.label }}</span>
+            </div>
+          </nz-badge>
+        </ng-container>
+        <ng-template #emptybadge>
+          <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+          <span>{{ item.label }}</span>
+        </ng-template>
+      </li>
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header></nz-header>
+    <nz-header>
+      <ng-container *ngIf="loggedUser$ | async as user">
+        <nz-avatar [nzSrc]="user.profile_picture" [nzSize]="64"></nz-avatar>
+        <a
+          style="padding-right: 20px; padding-left: 5px"
+          nz-dropdown
+          nz-placement="bottomRight"
+          [nzDropdownMenu]="menu"
+        >
+          {{ user.first_name }}
+          <i nz-icon nzType="down"></i>
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>Test1</li>
+            <li nz-menu-item>Test2</li>
+          </ul>
+        </nz-dropdown-menu>
+      </ng-container>
+    </nz-header>
     <nz-content>
       <div class="inner-content">
         <router-outlet></router-outlet>

@@ -1,9 +1,9 @@
-<ng-container *ngIf="user$ | async as user; else loading"> 
-    <app-simpleuser [user]="user"></app-simpleuser>
+<ng-container *ngIf="user$ | async as user; else loading">
+  <app-detail-user [user]="user"></app-detail-user>
 </ng-container>
 
 <ng-template #loading>
-    <div class="flexcenter__container">
-        <nz-spin class="nzspin__center" nzSimple nzSize="large"></nz-spin>
-    </div>
+  <div class="flexcenter__container">
+    <nz-spin class="nzspin__center" nzSimple nzSize="large"></nz-spin>
+  </div>
 </ng-template>

@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../shared/components/components.module';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -11,9 +12,7 @@ import { WallComponent } from './wall.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    WallComponent
-  ],
+  declarations: [WallComponent],
   imports: [
     CommonModule,
     WallRoutingModule,
@@ -22,7 +21,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzSpinModule,
     NzSelectModule,
     ReactiveFormsModule,
-    NzFormModule
-  ]
+    NzFormModule,
+    ComponentsModule,
+  ],
 })
-export class WallModule { }
+export class WallModule {}

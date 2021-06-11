@@ -1,3 +1,8 @@
-<ng-container *ngIf="friends$ | async as friends">
-    <app-simpleuser *ngFor="let friend of friends" [user]="friend"></app-simpleuser>
-</ng-container>
+<div class="friends__content">
+  <ng-container *ngIf="friends$ | async as friends">
+    <app-simple-user
+      *ngFor="let friend of friends"
+      [user]="friend"
+    ></app-simple-user>
+  </ng-container>
+</div>
