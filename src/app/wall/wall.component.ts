@@ -19,11 +19,17 @@ export class WallComponent implements OnInit, OnDestroy {
   public posts$: Observable<PostWithCreator[]>;
   public users$: Observable<User[]>;
 
+  drawerVisible: boolean = false;
+
   private userSelectedId: BehaviorSubject<number> = new BehaviorSubject(0);
   private formValueSub!: Subscription;
 
   wallForm = new FormGroup({
     user: new FormControl(''),
+  });
+
+  postForm = new FormGroup({
+    postText: new FormControl(''),
   });
 
   constructor(
@@ -54,5 +60,22 @@ export class WallComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.formValueSub.unsubscribe();
+  }
+
+  openDrawer(): void {
+    this.drawerVisible = true;
+  }
+
+  closeDrawer(): void {
+    this.drawerVisible = false;
+  }
+
+  addPost(): void {
+    this.postSrv.repo.addItem({
+      id: 0,
+      time_stamp: new Date(Date.now()),
+      text: this.postForm.get('postText')?.value,
+      creator_id: this.loginSrv.loggedUser?.id ?? 0,
+    });
   }
 }

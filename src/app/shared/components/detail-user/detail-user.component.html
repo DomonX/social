@@ -1,9 +1,14 @@
-<div style="display: flex; flex-direction: column">
-  <nz-avatar [nzSize]="256" [nzSrc]="user.profile_picture"></nz-avatar>
-  <p style="text-align: center; font-size: 40px">
-    {{ user.first_name }} {{ user.last_name }}
-  </p>
-  <p>{{ user.city }} {{ user.country }}</p>
-  <p>{{ user.address }} {{ user.postal_code }}</p>
-  <p>{{ user.job }} at {{ user.client }}</p>
-</div>
+<app-post-list [posts$]="posts$">
+  <div
+    header
+    style="display: flex; flex-direction: column; align-items: center"
+  >
+    <nz-avatar [nzSize]="256" [nzSrc]="user.profile_picture"></nz-avatar>
+    <p style="text-align: center; font-size: 40px">
+      {{ user.first_name }} {{ user.last_name }}
+    </p>
+    <p>{{ user.city }} {{ user.country }}</p>
+    <p>{{ user.address }} {{ user.postal_code }}</p>
+    <p>{{ user.job }} at {{ user.client }}</p>
+  </div>
+</app-post-list>

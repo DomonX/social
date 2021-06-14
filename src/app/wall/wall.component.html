@@ -1,34 +1,92 @@
-<form nz-form [nzLayout]="'inline'" [formGroup]="wallForm">
-  <nz-form-item style="width: 100%">
-    <nz-form-control>
-      <nz-select
-        nzAllowClear
-        style="width: 100%"
-        nzShowSearch
-        formControlName="user"
+<div
+  style="
+    display: flex;
+    align-content: center;
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
+  "
+></div>
+<app-post-list [posts$]="posts$">
+  <div header>
+    <button
+      style="width: 100%"
+      nz-button
+      nzType="primary"
+      (click)="openDrawer()"
+    >
+      Open
+    </button>
+  </div>
+</app-post-list>
+
+<nz-drawer
+  [nzClosable]="true"
+  [nzVisible]="drawerVisible"
+  nzPlacement="bottom"
+  nzTitle="Basic Drawer"
+  (nzOnClose)="closeDrawer()"
+>
+  <ng-container *nzDrawerContent>
+    <div
+      style="
+        display: flex;
+        align-content: center;
+        width: 100%;
+        flex-direction: column;
+        flex-wrap: wrap;
+      "
+    >
+      <form
+        style="width: 80%"
+        nz-form
+        [nzLayout]="'inline'"
+        [formGroup]="wallForm"
       >
-        <nz-option
-          *ngFor="let user of users$ | async"
-          nzLabel="{{ user.first_name }} {{ user.last_name }}"
-          [nzValue]="user.id"
-        ></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-</form>
-<div style="max-height: calc(100vh - 134px); overflow-y: auto">
-  <ng-container *ngIf="posts$ | async as posts; else loading">
-    <ng-container *ngIf="posts.length; else empty">
-      <ng-container *ngFor="let post of posts">
-        <app-simple-post [post]="post.post" [user]="post.creator">
-        </app-simple-post>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-  <ng-template #empty></ng-template>
-  <ng-template #loading>
-    <div class="flexcenter__container">
-      <nz-spin class="nzspin__center" nzSimple nzSize="large"></nz-spin>
+        <nz-form-item style="width: 100%">
+          <nz-form-control>
+            <nz-select
+              nzAllowClear
+              style="width: 100%"
+              nzShowSearch
+              formControlName="user"
+              nzPlaceHolder="Filter posts by Creator"
+            >
+              <nz-option
+                *ngFor="let user of users$ | async"
+                nzLabel="{{ user.first_name }} {{ user.last_name }}"
+                [nzValue]="user.id"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+      <form
+        style="width: 80%"
+        nz-form
+        [nzLayout]="'inline'"
+        [formGroup]="postForm"
+        (ngSubmit)="addPost()"
+      >
+        <nz-form-item style="width: 100%">
+          <nz-form-control>
+            <textarea
+              style="width: 100%; margin-top: 5px"
+              rows="4"
+              formControlName="postText"
+              placeholder="What do You have to say?"
+              nz-input
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item style="width: 100%">
+          <nz-form-control>
+            <button nz-button nzType="primary" style="width: 100%">
+              Add Post
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </div>
-  </ng-template>
-</div>
+  </ng-container>
+</nz-drawer>

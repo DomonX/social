@@ -10,6 +10,7 @@ import { User } from '../shared/models';
 })
 export class LoginService {
   public loggedUser$: Observable<User | undefined>;
+  public loggedUser: User | undefined = undefined;
 
   private loggedInfo: ReplaySubject<User | undefined>;
   private emailInfo: ReplaySubject<string>;
@@ -34,6 +35,7 @@ export class LoginService {
         )
       )
       .subscribe((loggedUser) => {
+        this.loggedUser = loggedUser;
         this.loggedInfo.next(loggedUser);
       });
     this.loggedUser$ = this.loggedInfo.asObservable();

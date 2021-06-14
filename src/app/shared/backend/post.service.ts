@@ -6,6 +6,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { Post, PostWithCreator, User } from '../models';
 import { LoginService } from './../../login/login.service';
 import { FriendService } from './friend.service';
+import { Repository } from './repository';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -16,14 +17,17 @@ export class PostService {
   public postsWithCreator$: Observable<PostWithCreator[]>;
   public postsOfLoggedUsersFriend$: Observable<PostWithCreator[]>;
 
+  public repo: Repository<Post>;
+
   constructor(
     private http: HttpClient,
     private userSrv: UserService,
     private loginSrv: LoginService,
     private friendSrv: FriendService
   ) {
-    this.posts$ = http
-      .get<Post[]>('assets/api/Post.json')
+    this.repo = new Repository<Post>(http, 'assets/api/Post.json');
+    this.posts$ = this.repo
+      .getItems()
       .pipe(
         map((posts) =>
           posts.map((p) => ({ ...p, time_stamp: new Date(p.time_stamp) }))
@@ -37,15 +41,27 @@ export class PostService {
 
     this.postsOfLoggedUsersFriend$ = combineLatest([
       this.postsWithCreator$,
-      this.friendSrv.getUserFriends(loginSrv.loggedUser$),
+      this.friendSrv.getUserFriends(this.loginSrv.loggedUser$),
+      this.loginSrv.loggedUser$,
     ]).pipe(
-      map(([posts, friends]) => {
+      map(([posts, friends, loggedUser]) => {
         return posts.filter(
           (post) =>
+            post.creator.id == loggedUser?.id ||
             friends.find((friend) => friend.id == post.creator.id) !== undefined
         );
       }),
       shareReplay(1)
+    );
+  }
+
+  public getPostsOfUser(
+    id$: Observable<number>
+  ): Observable<PostWithCreator[]> {
+    return combineLatest([this.postsWithCreator$, id$]).pipe(
+      map(([posts, id]) => {
+        return posts.filter((post) => post.creator.id == id);
+      })
     );
   }
 

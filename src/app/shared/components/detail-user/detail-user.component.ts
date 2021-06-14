@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
+import { PostService } from '../../backend/post.service';
 import { User } from '../../models';
+import { PostWithCreator } from './../../models/post-with-creator.model';
 
 @Component({
   selector: 'app-detail-user',
@@ -10,7 +13,11 @@ import { User } from '../../models';
 export class DetailUserComponent implements OnInit {
   @Input() user!: User;
 
-  constructor() {}
+  posts$!: Observable<PostWithCreator[]>;
 
-  ngOnInit(): void {}
+  constructor(private postSrv: PostService) {}
+
+  ngOnInit(): void {
+    this.posts$ = this.postSrv.getPostsOfUser(of(this.user.id));
+  }
 }

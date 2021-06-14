@@ -1,8 +1,34 @@
-<div class="friends__content">
-  <ng-container *ngIf="friends$ | async as friends">
-    <app-simple-user
-      *ngFor="let friend of friends"
-      [user]="friend"
-    ></app-simple-user>
-  </ng-container>
+<div style="display: flex; align-content: space-around">
+  <div class="friends__content">
+    <ng-container *ngIf="friends$ | async as friends">
+      <app-simple-user
+        *ngFor="let friend of friends"
+        [user]="friend"
+      ></app-simple-user>
+    </ng-container>
+  </div>
+
+  <div class="friends__content">
+    <ng-container *ngIf="friends$ | async as friends">
+      <app-simple-user *ngFor="let friend of friends" [user]="friend"
+        ><button
+          style="margin-left: 5px"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="circle"
+        >
+          <i nz-icon nzType="check" nzTheme="outline"></i>
+        </button>
+        <button
+          style="margin-left: 5px; background-color: red; border-color: red"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="circle"
+        >
+          <i nz-icon nzType="close" nzTheme="outline"></i></button
+      ></app-simple-user>
+    </ng-container>
+  </div>
 </div>
