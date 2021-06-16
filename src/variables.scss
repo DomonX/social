@@ -1,0 +1,13 @@
+@use "sass:list";
+
+$lighten_levels: 85%, 75%, 65%, 50%, 38%, 22%, 15%;
+$intensivity_levels: 100%, 75%, 50%;
+$colors: 210, 165, 320;
+
+@function color($color, $intense, $lighten) {
+  @return hsl(
+    list.nth($colors, $color),
+    list.nth($intensivity_levels, $intense),
+    list.nth($lighten_levels, $lighten)
+  );
+}

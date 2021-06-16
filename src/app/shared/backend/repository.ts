@@ -19,10 +19,9 @@ export class Repository<T extends CrudModel> {
     this.subject.next(this.items);
   }
 
-  public addItem(item: T): void {
+  public addItem(item: Omit<T, 'id'>): void {
     const [lastId] = this.items.slice(-1);
-    item.id = lastId.id;
-    this.newState([...this.items, item]);
+    this.newState([...this.items, { ...item, id: lastId.id } as T]);
   }
 
   public getItems(): Observable<T[]> {
@@ -33,8 +32,8 @@ export class Repository<T extends CrudModel> {
     this.newState(this.items.filter((i) => i.id !== id));
   }
 
-  public updateItem(id: number, item: T): void {
-    this.newState(this.items.map((i) => (i.id == id ? item : i)));
+  public updateItem(id: number, item: Partial<T>): void {
+    this.newState(this.items.map((i) => (i.id == id ? { ...i, ...item } : i)));
   }
 
   public getItem(id: Observable<number>): Observable<T | undefined> {
@@ -44,22 +43,4 @@ export class Repository<T extends CrudModel> {
       })
     );
   }
-
-  //   public joinOne<TJ extends CrudModel>(
-  //     items: Observable<TJ[]>,
-  //     keyname: string
-  //   ): Observable<{ item: T; join: TJ }[]> {
-  //     return combineLatest([this.subject.asObservable(), items]).pipe(
-  //       map(([items, joins]) => {
-  //         return items.map((item) => {
-  //           const keyValue = (item as any)[keyname];
-  //           const foundJoin: TJ | undefined = joins.find((i) => i.id == keyValue);
-  //           return {
-  //             item,
-  //             join: foundJoin as TJ,
-  //           };
-  //         });
-  //       })
-  //     );
-  //   }
 }

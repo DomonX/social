@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginGuard } from './../login.guard';
 import { ChatComponent } from './chat.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,7 @@ const routes: Routes = [
     component: ChatComponent,
     canActivate: [LoginGuard],
     canActivateChild: [LoginGuard],
+    children: [{ path: ':id', component: ConversationComponent }],
   },
 ];
 

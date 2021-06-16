@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Friend, User } from '../models';
+import { FriendJson, User } from '../models';
 import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FriendService {
-  public friends$: Observable<Friend[]>;
+  public friends$: Observable<FriendJson[]>;
 
   constructor(private http: HttpClient, private userSrv: UserService) {
-    this.friends$ = http.get<Friend[]>('assets/api/Friend.json');
+    this.friends$ = http.get<FriendJson[]>('assets/api/Friend.json');
   }
 
   public getUserFriends(

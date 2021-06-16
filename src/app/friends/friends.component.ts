@@ -21,4 +21,11 @@ export class FriendsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  acceptFriend(event: any, friend: User): void {
+    event.stopStopagation();
+  }
+  denyFriend(event: any, friend: User): void {
+    event.stopStopagation();
+  }
 }

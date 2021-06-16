@@ -45,7 +45,13 @@
         </nz-dropdown-menu>
       </ng-container>
     </nz-header>
-    <nz-content style="max-height: calc(100vh - 134px)">
+    <nz-content
+      style="
+        max-height: calc(100vh - 134px);
+        overflow-y: auto;
+        background-color: white;
+      "
+    >
       <div class="inner-content">
         <router-outlet></router-outlet>
       </div>

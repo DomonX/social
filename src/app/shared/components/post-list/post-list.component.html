@@ -1,7 +1,4 @@
-<div
-  *ngIf="posts$ | async as posts; else loading"
-  style="height: calc(100% - 8px); overflow-y: auto"
->
+<div *ngIf="posts$ | async as posts; else loading">
   <ng-content select="[header]"></ng-content>
   <ng-container>
     <ng-container *ngIf="posts.length; else empty">

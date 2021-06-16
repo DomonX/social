@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 
 import { Post, PostWithCreator, User } from '../models';
 import { LoginService } from './../../login/login.service';
+import { PostJson } from './../models/post.model';
 import { FriendService } from './friend.service';
 import { Repository } from './repository';
 import { UserService } from './user.service';
@@ -17,7 +18,7 @@ export class PostService {
   public postsWithCreator$: Observable<PostWithCreator[]>;
   public postsOfLoggedUsersFriend$: Observable<PostWithCreator[]>;
 
-  public repo: Repository<Post>;
+  public repository: Repository<PostJson>;
 
   constructor(
     private http: HttpClient,
@@ -25,8 +26,8 @@ export class PostService {
     private loginSrv: LoginService,
     private friendSrv: FriendService
   ) {
-    this.repo = new Repository<Post>(http, 'assets/api/Post.json');
-    this.posts$ = this.repo
+    this.repository = new Repository<PostJson>(http, 'assets/api/Post.json');
+    this.posts$ = this.repository
       .getItems()
       .pipe(
         map((posts) =>
@@ -76,6 +77,21 @@ export class PostService {
   ): Observable<PostWithCreator> {
     return combineLatest([post$, this.userSrv.users$]).pipe(
       map(([post, users]) => this.mapToPostWithCreator(post, users))
+    );
+  }
+
+  public sortAndFilter(
+    posts$: Observable<PostWithCreator[]>,
+    creator_id: Observable<number>
+  ): Observable<PostWithCreator[]> {
+    return combineLatest([posts$, creator_id]).pipe(
+      map(([posts, formValue]) =>
+        posts
+          .filter((p) => (formValue ? p.creator?.id == formValue : true))
+          .sort(
+            (a, b) => b.post.time_stamp.getTime() - a.post.time_stamp.getTime()
+          )
+      )
     );
   }
 

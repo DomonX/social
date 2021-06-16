@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { PostService } from '../shared/backend/post.service';
 import { User } from '../shared/models';
@@ -38,17 +37,9 @@ export class WallComponent implements OnInit, OnDestroy {
     private friendSrv: FriendService
   ) {
     this.users$ = friendSrv.getUserFriends(loginSrv.loggedUser$);
-    this.posts$ = combineLatest([
+    this.posts$ = this.postSrv.sortAndFilter(
       postSrv.postsOfLoggedUsersFriend$,
-      this.userSelectedId,
-    ]).pipe(
-      map(([posts, formValue]) =>
-        posts
-          .filter((p) => (formValue ? p.creator?.id == formValue : true))
-          .sort(
-            (a, b) => b.post.time_stamp.getTime() - a.post.time_stamp.getTime()
-          )
-      )
+      this.userSelectedId
     );
   }
 
@@ -71,11 +62,11 @@ export class WallComponent implements OnInit, OnDestroy {
   }
 
   addPost(): void {
-    this.postSrv.repo.addItem({
-      id: 0,
-      time_stamp: new Date(Date.now()),
+    this.postSrv.repository.addItem({
+      time_stamp: new Date(Date.now()).toISOString(),
       text: this.postForm.get('postText')?.value,
       creator_id: this.loginSrv.loggedUser?.id ?? 0,
     });
+    this.drawerVisible = false;
   }
 }

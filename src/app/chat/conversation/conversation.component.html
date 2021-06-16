@@ -1,0 +1,59 @@
+<ng-container *ngIf="chat$ | async as chat">
+  <div style="display: flex; justify-content: center">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: fit-content;
+      "
+    >
+      <ng-container *ngFor="let msg of chat.messages">
+        <span style="color: gray"
+          >{{ msg.user.first_name }} {{ msg.user.last_name }}
+          <span style="color: lightgray">{{ msg.time_stamp }}</span></span
+        >
+
+        <div class="chat__messagebox">
+          <span class="chat__message">{{ msg.message }}</span>
+          <div class="chat__messageavatar">
+            <nz-avatar
+              style="align-self: flex-end; min-width: 24px"
+              nzSize="small"
+              [nzSrc]="msg.user.profile_picture"
+            ></nz-avatar>
+          </div>
+        </div>
+      </ng-container>
+      <form
+        style="width: 100%; margin-top: 5px"
+        nz-form
+        [nzLayout]="'inline'"
+        [formGroup]="messageForm"
+        (ngSubmit)="addMessage(chat)"
+        (keydown)="keyDownFunction($event, chat)"
+        (keyup)="keyUpFunction($event, chat)"
+      >
+        <textarea
+          style="width: calc(100% - 30px)"
+          rows="2"
+          formControlName="message"
+          placeholder="What do You have to say?"
+          nz-input
+          autofocus
+          nzAutosize
+        ></textarea>
+        <button
+          style="width: 30px"
+          nz-button
+          nzType="primary"
+          nzSize="large"
+          nzShape="circle"
+          class="chat__send_message_button"
+        >
+          <i nz-icon nzType="right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-container>

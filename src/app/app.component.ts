@@ -28,7 +28,9 @@ export class AppComponent {
   constructor(private loginSrv: LoginService, private chatSrv: ChatService) {
     this.loggedUser$ = loginSrv.loggedUser$;
     this.chatMessages$ = chatSrv.loggedUserConversations$.pipe(
-      map((convs) => convs.filter((i) => i.messages.length > 0).length)
+      map((convs) => {
+        return convs.filter((i) => i.notify && i.messages.length > 0).length;
+      })
     );
     this.menuItems = [
       { routerLink: 'wall', label: 'Wall', icon: 'home', badge: of(0) },

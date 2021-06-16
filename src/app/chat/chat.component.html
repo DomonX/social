@@ -1,25 +1,52 @@
-<ng-container *ngIf="conversations$ | async as conversations">
-  <div *ngFor="let conv of conversations">
-    <h2>{{ conv.title }}</h2>
-    <div class="chat__messagebox" *ngFor="let msg of conv.messages">
-      <div class="chat__message">{{ msg.message }}</div>
-      <div class="chat__messageavatar">
-        <button
-          nzTooltipTitle="{{ msg.user.first_name }} {{ msg.user.last_name }}"
-          nzTooltipPlacement="rightBottom"
-          nz-button
-          nz-tooltip
-          style="border: none; background-color: inherit"
-        >
-          <nz-avatar
-            style="align-self: flex-end; min-width: 24px"
-            nzSize="small"
-            [nzSrc]="msg.user.profile_picture"
-            nzTooltipTitle="prompt text"
-            nzTooltipPlacement="right"
-          ></nz-avatar>
-        </button>
+<ng-container *ngIf="route.children.length === 0">
+  <ng-container *ngIf="content$ | async as content">
+    <div class="chat__center">
+      <div
+        *ngFor="let conv of content"
+        [ngClass]="
+          conv.notify ? 'chat__messagebox__notify' : 'chat__messagebox'
+        "
+        style="align-items: center"
+        (click)="openConversation(conv.conversation)"
+      >
+        <div class="chat__messageavatar">
+          <nz-avatar-group>
+            <ng-container *ngFor="let user of conv.avatars">
+              <ng-container *ngIf="user.hasImage; else textAvatar">
+                <nz-avatar
+                  style="align-self: flex-end; min-width: 24px"
+                  nzSize="large"
+                  [nzSrc]="user.src"
+                  nz-tooltip
+                  nzTooltipTitle="{{ user.tooltip }}"
+                  nzTooltipPlacement="rightBottom"
+                ></nz-avatar>
+              </ng-container>
+              <ng-template #textAvatar>
+                <nz-avatar
+                  style="align-self: flex-end; min-width: 24px"
+                  nzSize="large"
+                  [nzText]="user.text"
+                ></nz-avatar>
+              </ng-template>
+            </ng-container>
+          </nz-avatar-group>
+        </div>
+        <div class="chat__textbox" style="padding-left: 5px">
+          <span style="margin: 0; padding: 0; display: block">
+            <b>{{ conv.title }}</b>
+          </span>
+          <div>
+            <span class="chat__text__nowrap">
+              <span style="color: rgba(128, 128, 128, 0.8)">
+                {{ conv.messageCreator }}:
+              </span>
+              {{ conv.message }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </ng-container>
+<router-outlet></router-outlet>

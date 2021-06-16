@@ -1,3 +1,9 @@
+$background-menu: hsla(210, 100%, 13%, 1);
+
+body {
+  overflow: hidden;
+}
+
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
@@ -5,19 +11,24 @@
 }
 
 nz-header {
-  background-color: #001529;
+  background-color: $background-menu;
   padding: 0;
   display: flex;
   justify-content: flex-end;
 }
 
-nz-content {
-  margin: 0 16px;
-  min-height: 100vh;
+nz-footer {
+  text-align: center;
+  background-color: $background-menu;
+  color: rgba(255, 255, 255, 0.65);
 }
 
-nz-breadcrumb {
-  margin: 16px 0;
+nz-sider {
+  background-color: $background-menu;
+}
+
+.ant-menu {
+  background-color: $background-menu;
 }
 
 .inner-content {
@@ -26,12 +37,6 @@ nz-breadcrumb {
   height: 100%;
   display: flex;
   justify-content: center;
-}
-
-nz-footer {
-  text-align: center;
-  background-color: #001529;
-  color: rgba(255, 255, 255, 0.65);
 }
 
 .menu__badge {
