@@ -34,7 +34,7 @@ export class AppComponent {
     );
     this.menuItems = [
       { routerLink: 'wall', label: 'Wall', icon: 'home', badge: of(0) },
-      { routerLink: 'friends', label: 'Friends', icon: 'user', badge: of(1) },
+      { routerLink: 'friends', label: 'Friends', icon: 'user', badge: of(0) },
       {
         routerLink: 'chat',
         label: 'Chats',
